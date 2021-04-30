@@ -5,6 +5,7 @@ import com.mizuledevelopment.master.commands.rcon.AddCommand;
 import com.mizuledevelopment.master.commands.rcon.ConnectCommand;
 import com.mizuledevelopment.master.commands.rcon.ReconnectCommand;
 import com.mizuledevelopment.master.jedis.JedisManager;
+import com.mizuledevelopment.master.jedis.JedisPublisher;
 import com.mizuledevelopment.master.manager.NodeManager;
 import io.github.revxrsal.cub.cli.core.CLIHandler;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class MasterApplication {
         nodeManager = new NodeManager();
 
         jedisManager = new JedisManager("192.168.1.12", 6379, null);
+        JedisPublisher.sendMessage("Ping!");
 
         Scanner scanner = new Scanner(System.in);
         cliHandler = new CLIHandler(scanner, new PrintStream(System.out));

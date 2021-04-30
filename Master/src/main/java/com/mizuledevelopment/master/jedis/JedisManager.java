@@ -7,6 +7,7 @@ import com.amihaiemil.docker.UnixDocker;
 import com.mizuledevelopment.master.MasterApplication;
 import com.mizuledevelopment.master.manager.ServerModel;
 import com.mizuledevelopment.master.rcon.RconClient;
+import lombok.Getter;
 import lombok.SneakyThrows;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -52,6 +53,8 @@ public class JedisManager {
                     case "STOP":
                         MasterApplication.getNodeManager().getActiveServers().get(raw[1]).getRconClient().sendCommand("stop");
                         break;
+                    case "PING":
+                        JedisPublisher.sendMessage("Pong!");
                     default:
                         break;
                 }

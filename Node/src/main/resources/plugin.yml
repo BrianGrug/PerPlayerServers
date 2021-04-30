@@ -1,0 +1,3 @@
+main: com.mizuledevelopment.node.NodePlugin
+version: 1.0
+name: Node

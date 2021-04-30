@@ -30,7 +30,6 @@
                             <include>org.jsoup:jsoup</include>
                             <include>com.google.code.gson:gson</include>
                             <inclide>redis.clients:jedis</inclide>
-                            <include>com.typesafe:config</include>
                         </includes>
                     </artifactSet>
                 </configuration>
