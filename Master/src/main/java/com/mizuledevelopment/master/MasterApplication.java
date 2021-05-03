@@ -13,6 +13,7 @@ import com.mizuledevelopment.master.commands.rcon.ReconnectCommand;
 import com.mizuledevelopment.master.jedis.JedisManager;
 import com.mizuledevelopment.master.jedis.JedisPublisher;
 import com.mizuledevelopment.master.manager.NodeManager;
+import com.mizuledevelopment.master.mongo.Mongo;
 import io.github.revxrsal.cub.cli.core.CLIHandler;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -35,6 +36,8 @@ public class MasterApplication {
 
         DockerClientConfig clientConfig = DefaultDockerClientConfig.createDefaultConfigBuilder().withDockerHost("tcp://192.168.1.27:2375").build();
         dockerClient = DockerClientBuilder.getInstance(clientConfig).build();
+
+        new Mongo().connectMongo();
 
         nodeManager = new NodeManager();
 
