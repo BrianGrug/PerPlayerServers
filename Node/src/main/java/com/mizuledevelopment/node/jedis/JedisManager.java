@@ -1,42 +1,55 @@
 package com.mizuledevelopment.node.jedis;
 
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
 
-import java.util.UUID;
-
 public class JedisManager {
 
-    @Getter private JedisPool jedisPool;
-    @Getter private Jedis jedis;
+    @Getter
+    private final JedisPool jedisPool;
+    @Getter
+    private final Jedis jedis;
+    @Getter
+    private final String jedisPassword;
 
-    public JedisManager(String host, int port, String password) {
+    @Getter
+    private final String jedisChannel;
+
+    public JedisManager(String host, int port, String jedisChannel, String jedisPassword) {
+        this.jedisChannel = jedisChannel;
+        this.jedisPassword = jedisPassword;
+
         jedisPool = new JedisPool(host, port);
+
         jedis = jedisPool.getResource();
 
-        if (password != null) jedis.auth(password);
+        if (jedisPassword != null) jedis.auth(jedisPassword);
 
-        new Thread(() -> jedis.subscribe(listen(), "Testing-Master")).start();
+        new Thread(() -> jedis.subscribe(startPubSub(), jedisChannel)).start();
     }
 
-    private JedisPubSub listen() {
+    /**
+     * Start the {@link JedisPubSub}
+     *
+     * @return {@link JedisPubSub} implementation
+     */
+    private JedisPubSub startPubSub() {
         return new JedisPubSub() {
+            @Override
             public void onMessage(String channel, String message) {
 
-                if(!channel.equals("Testing-Master")) return;
+                if(!channel.equals(jedisChannel)) return;
 
-                String[] raw = message.split("/:");
-                String type = raw[0];
+                String[] data = message.split("///");
 
-                switch (type) {
-                    case "STOP":
-                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop");
-                        break;
+                System.out.println("Received command " + data[0]);
+
+                switch (data[0]) {
                     case "PING":
-                        System.out.println("Connected to Master server!");
+                        System.out.println("Heartbeat received!");
+                        break;
                     default:
                         break;
                 }

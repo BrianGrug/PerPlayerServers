@@ -13,7 +13,7 @@ public class NodePlugin extends JavaPlugin {
     public void onEnable() {
         plugin = this;
 
-        jedisManager = new JedisManager(getConfig().getString("redis.host"), getConfig().getInt("redis.port"), getConfig().getString("password"));
-        JedisPublisher.sendMessage("PING");
+        jedisManager = new JedisManager(getConfig().getString("redis.host"), getConfig().getInt("redis.port"), "Testing-Master", getConfig().getString("password"));
+        new JedisPublisher(jedisManager).publishData("PING");
     }
 }

@@ -1,60 +1,57 @@
 package com.mizuledevelopment.master.jedis;
 
-import com.amihaiemil.docker.Docker;
-import com.amihaiemil.docker.Image;
-import com.amihaiemil.docker.Images;
-import com.amihaiemil.docker.UnixDocker;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.mizuledevelopment.master.MasterApplication;
 import com.mizuledevelopment.master.manager.ServerModel;
 import com.mizuledevelopment.master.rcon.RconClient;
 import lombok.Getter;
-import lombok.SneakyThrows;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
 
-import java.io.File;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 public class JedisManager {
 
-    JedisPool jedisPool;
-    Jedis jedis;
+    @Getter
+    private final JedisPool jedisPool;
+    @Getter
+    private final Jedis jedis;
+    @Getter
+    private final String jedisPassword;
+    @Getter
+    private final String jedisChannel;
 
-    public JedisManager(String host, int port, String password) {
+    public JedisManager(String host, int port, String jedisChannel, String jedisPassword) {
+        this.jedisChannel = jedisChannel;
+        this.jedisPassword = jedisPassword;
+
         jedisPool = new JedisPool(host, port);
+
         jedis = jedisPool.getResource();
 
-        if (password != null) jedis.auth(password);
+        if (jedisPassword != null) jedis.auth(jedisPassword);
 
-        new Thread(() -> jedis.subscribe(listen(), "Testing-Master")).start();
+        new Thread(() -> jedis.subscribe(startPubSub(), jedisChannel)).start();
     }
 
-    private JedisPubSub listen() {
+    private JedisPubSub startPubSub() {
         return new JedisPubSub() {
+            @Override
             public void onMessage(String channel, String message) {
-                String[] raw = message.split("/:");
-                String type = raw[0];
-                RconClient rconClient;
 
-                switch (type) {
-                    case "ADD":
-                        rconClient = RconClient.open(raw[1], Integer.parseInt(raw[2]), raw[3]);
-                        MasterApplication.getNodeManager().getActiveServers().put(raw[2],
-                                new ServerModel(raw[1], raw[2], UUID.randomUUID(), Integer.parseInt(raw[3]), Integer.parseInt(raw[4]), raw[5], rconClient, System.currentTimeMillis()));
-                        break;
-                    case "CREATE":
-                        rconClient = RconClient.open(raw[1], Integer.parseInt(raw[2]), raw[3]);
-                        MasterApplication.getNodeManager().getActiveServers().put(raw[2],
-                                new ServerModel(raw[1], raw[2], UUID.randomUUID(), Integer.parseInt(raw[3]), Integer.parseInt(raw[4]), raw[5], rconClient, System.currentTimeMillis()));
+                if(!channel.equals(jedisChannel)) return;
 
-                        //TODO finish creation
-                        break;
-                    case "STOP":
-                        MasterApplication.getNodeManager().getActiveServers().get(raw[1]).getRconClient().sendCommand("stop");
-                        break;
+                String[] data = message.split("///");
+
+                System.out.println("Received command " + data[0]);
+
+                switch (data[0]) {
                     case "PING":
-                        JedisPublisher.sendMessage("Pong!");
+                        System.out.println("Heartbeat received!");
+                        break;
                     default:
                         break;
                 }

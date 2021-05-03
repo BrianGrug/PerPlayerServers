@@ -1,15 +1,25 @@
 package com.mizuledevelopment.master.jedis;
 
-import com.mizuledevelopment.master.MasterApplication;
 import redis.clients.jedis.Jedis;
 
 public class JedisPublisher {
 
-    public static void sendMessage(String message) {
-        Jedis jedis = MasterApplication.getJedisManager().jedisPool.getResource();
+    private Jedis jedis;
+    private final JedisManager jedisManager;
 
-        //TODO add auth but I need a fucking config
-        jedis.publish("Testing-Master", message);
-        jedis.close();
+    public JedisPublisher(JedisManager jedisManager) {
+        this.jedisManager = jedisManager;
+    }
+
+    public void publishData(String message) {
+        try {
+            this.jedis = jedisManager.getJedisPool().getResource();
+
+            if(jedisManager.getJedisPassword() != null) jedis.auth(jedisManager.getJedisPassword());
+
+            jedis.publish(jedisManager.getJedisChannel(), message);
+        } finally {
+            this.jedis.close();
+        }
     }
 }
