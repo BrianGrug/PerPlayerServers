@@ -11,6 +11,7 @@ public class ServerModel {
 
     private String host;
     private String name;
+    private String containerID;
     private UUID uuid;
     private int rconPort;
     private int serverPort;

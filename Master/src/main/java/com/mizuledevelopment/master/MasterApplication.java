@@ -4,9 +4,7 @@ import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientBuilder;
 import com.github.dockerjava.core.DockerClientConfig;
-import com.mizuledevelopment.master.commands.CreateCommand;
-import com.mizuledevelopment.master.commands.FindCommand;
-import com.mizuledevelopment.master.commands.HelpCommand;
+import com.mizuledevelopment.master.commands.*;
 import com.mizuledevelopment.master.commands.rcon.AddCommand;
 import com.mizuledevelopment.master.commands.rcon.ConnectCommand;
 import com.mizuledevelopment.master.jedis.JedisManager;
@@ -52,7 +50,9 @@ public class MasterApplication {
                 new FindCommand(),
                 new AddCommand(),
                 new HelpCommand(),
-                new CreateCommand()
+                new CreateCommand(),
+                new StartCommand(),
+                new StopCommand()
         ).forEach(cliHandler::registerCommand);
 
         cliHandler.requestInput();

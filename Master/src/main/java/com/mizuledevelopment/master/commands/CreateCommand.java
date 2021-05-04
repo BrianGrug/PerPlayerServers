@@ -56,6 +56,7 @@ public class CreateCommand {
 
         serverModel.setServerPort(portBindings.get(25565));
         serverModel.setHost("192.168.1.27");
+        serverModel.setContainerID(container.getId());
         serverModel.setName(name);
         serverModel.setRconClient(null);
         serverModel.setRconPort(portBindings.get(13582));
