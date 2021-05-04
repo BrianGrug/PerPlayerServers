@@ -1,15 +1,14 @@
 package com.mizuledevelopment.master;
 
 import com.github.dockerjava.api.DockerClient;
-import com.github.dockerjava.api.model.Image;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientBuilder;
 import com.github.dockerjava.core.DockerClientConfig;
 import com.mizuledevelopment.master.commands.CreateCommand;
+import com.mizuledevelopment.master.commands.FindCommand;
 import com.mizuledevelopment.master.commands.HelpCommand;
 import com.mizuledevelopment.master.commands.rcon.AddCommand;
 import com.mizuledevelopment.master.commands.rcon.ConnectCommand;
-import com.mizuledevelopment.master.commands.rcon.ReconnectCommand;
 import com.mizuledevelopment.master.jedis.JedisManager;
 import com.mizuledevelopment.master.jedis.JedisPublisher;
 import com.mizuledevelopment.master.manager.NodeManager;
@@ -50,7 +49,7 @@ public class MasterApplication {
 
         Arrays.asList(
                 new ConnectCommand(),
-                new ReconnectCommand(),
+                new FindCommand(),
                 new AddCommand(),
                 new HelpCommand(),
                 new CreateCommand()

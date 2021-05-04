@@ -1,6 +1,7 @@
 package com.mizuledevelopment.master.commands.rcon;
 
 import com.mizuledevelopment.master.MasterApplication;
+import com.mizuledevelopment.master.manager.NodeManager;
 import com.mizuledevelopment.master.manager.ServerModel;
 import com.mizuledevelopment.master.rcon.RconClient;
 import io.github.revxrsal.cub.annotation.*;
@@ -11,34 +12,29 @@ import java.util.Scanner;
 
 public class ConnectCommand {
 
-    @Command(value = "connect")
+    @Command(value = "connect", aliases = {"reconnect", "establish", "use"})
     @Description("Connect to other servers via Rcon")
     @SneakyThrows
-    public void connect(@Named("host") String name, @Optional String command, @Optional @Flag("t") boolean interactive) {
+    public void connect(@Named("host") String name) {
 
-        ServerModel serverModel = MasterApplication.getNodeManager().getActiveServers().get(name);
+        ServerModel serverModel = NodeManager.getServer(name);
 
         RconClient rconClient = RconClient.open("192.168.1.27", serverModel.getRconPort(), MasterApplication.getRconPassword());
 
+
+        System.out.print("> ");
+
         Scanner scanner = new Scanner(System.in);
 
-        if (interactive) {
-            while (scanner.hasNextLine()) {
-                String input = scanner.nextLine();
+        while (scanner.hasNextLine()) {
+            String input = scanner.nextLine();
 
-                System.out.print("> ");
+            System.out.print("> ");
+            if (input.equals(":q!")) break;
 
-                if (input.equals(":q!")) break;
-
-                String response = rconClient.sendCommand(input);
-
-                System.out.println("< " + (response.isEmpty() ? "(empty response)" : response));
-                System.out.print("> ");
-            }
-        }else {
-            String response = rconClient.sendCommand(command);
-
+            String response = rconClient.sendCommand(input);
             System.out.println("< " + (response.isEmpty() ? "(empty response)" : response));
+            System.out.print("> ");
         }
     }
 }

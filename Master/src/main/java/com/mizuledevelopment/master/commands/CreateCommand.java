@@ -5,6 +5,7 @@ import com.github.dockerjava.api.exception.InternalServerErrorException;
 import com.github.dockerjava.api.model.ExposedPort;
 import com.github.dockerjava.api.model.Ports;
 import com.mizuledevelopment.master.MasterApplication;
+import com.mizuledevelopment.master.manager.NodeManager;
 import com.mizuledevelopment.master.manager.ServerModel;
 import com.mizuledevelopment.master.rcon.RconClient;
 import io.github.revxrsal.cub.annotation.Command;
@@ -62,8 +63,8 @@ public class CreateCommand {
         serverModel.setUuid(UUID.randomUUID());
         serverModel.setRconPassword(MasterApplication.getRconPassword());
 
-        MasterApplication.getNodeManager().getActiveServers().put(name, serverModel);
+        NodeManager.save(serverModel);
 
-        if(name != null) MasterApplication.getNodeManager().getActiveServers().put(name, serverModel);
+        NodeManager.getServerCache().put(name, serverModel);
     }
 }

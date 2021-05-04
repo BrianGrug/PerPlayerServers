@@ -14,14 +14,8 @@ public class NodeManager {
     @Getter private static HashMap<String, ServerModel> serverCache;
     private String name;
 
-    private ServerModel serverModel;
-
     public NodeManager() {
         serverCache = new HashMap<>();
-    }
-
-    public void load() {
-        serverModel = serverCache.get(name);
     }
 
     public static ServerModel getServer(String name) {
@@ -49,6 +43,8 @@ public class NodeManager {
         if (serverModel.getName() == null) throw new NullPointerException("Name Cannot be equal to null!");
 
         Bson filter = Filters.eq("_id", serverModel.getUuid());
+
+        serverCache.put(serverModel.getName(), serverModel);
 
         if (Mongo.getServerCollection().find(Filters.eq("name", serverModel.getName())).first() == null) {
             Mongo.getServerCollection().insertOne(serverModel);
