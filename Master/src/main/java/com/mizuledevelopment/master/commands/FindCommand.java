@@ -1,7 +1,7 @@
 package com.mizuledevelopment.master.commands;
 
 import com.mizuledevelopment.master.manager.NodeManager;
-import com.mizuledevelopment.master.manager.ServerModel;
+import com.mizuledevelopment.master.objects.ServerModel;
 import io.github.revxrsal.cub.annotation.Command;
 
 import java.util.Arrays;

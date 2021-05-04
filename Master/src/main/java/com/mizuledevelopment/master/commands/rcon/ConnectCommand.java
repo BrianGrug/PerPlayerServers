@@ -2,13 +2,15 @@ package com.mizuledevelopment.master.commands.rcon;
 
 import com.mizuledevelopment.master.MasterApplication;
 import com.mizuledevelopment.master.manager.NodeManager;
-import com.mizuledevelopment.master.manager.ServerModel;
+import com.mizuledevelopment.master.objects.ServerModel;
 import com.mizuledevelopment.master.rcon.RconClient;
 import io.github.revxrsal.cub.annotation.*;
 import lombok.SneakyThrows;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class ConnectCommand {
 
@@ -21,6 +23,7 @@ public class ConnectCommand {
 
         RconClient rconClient = RconClient.open("192.168.1.27", serverModel.getRconPort(), MasterApplication.getRconPassword());
 
+        NodeManager.save(serverModel);
 
         System.out.print("> ");
 

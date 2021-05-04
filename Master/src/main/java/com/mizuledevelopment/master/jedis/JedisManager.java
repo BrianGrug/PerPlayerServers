@@ -1,17 +1,10 @@
 package com.mizuledevelopment.master.jedis;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.mizuledevelopment.master.MasterApplication;
-import com.mizuledevelopment.master.manager.ServerModel;
-import com.mizuledevelopment.master.rcon.RconClient;
+import com.mizuledevelopment.master.manager.NodeManager;
 import lombok.Getter;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
-
-import java.util.UUID;
-import java.util.logging.Logger;
 
 public class JedisManager {
 
@@ -45,12 +38,12 @@ public class JedisManager {
                 if(!channel.equals(jedisChannel)) return;
 
                 String[] data = message.split("///");
-
-                System.out.println("Received command " + data[0]);
-
+                //TODO Fix jedis multiplying
                 switch (data[0]) {
                     case "PING":
-                        System.out.println("Heartbeat received!");
+                        if(data.length == 1) return;
+
+                        NodeManager.getServer(data[1]).setTime(System.currentTimeMillis());
                         break;
                     default:
                         break;

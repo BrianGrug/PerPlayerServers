@@ -11,6 +11,7 @@ import com.mizuledevelopment.master.jedis.JedisManager;
 import com.mizuledevelopment.master.jedis.JedisPublisher;
 import com.mizuledevelopment.master.manager.NodeManager;
 import com.mizuledevelopment.master.mongo.Mongo;
+import com.mizuledevelopment.master.thread.HeartbeatThread;
 import io.github.revxrsal.cub.cli.core.CLIHandler;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -31,6 +32,7 @@ public class MasterApplication {
     public static void main(String[] args) {
         rconPassword = "Testing123";
 
+
         DockerClientConfig clientConfig = DefaultDockerClientConfig.createDefaultConfigBuilder().withDockerHost("tcp://192.168.1.27:2375").build();
         dockerClient = DockerClientBuilder.getInstance(clientConfig).build();
 
@@ -39,11 +41,11 @@ public class MasterApplication {
         nodeManager = new NodeManager();
 
         jedisManager = new JedisManager("192.168.1.12", 6379, "Testing-Master", null);
-        new JedisPublisher(jedisManager).publishData("PING");
+
+        new HeartbeatThread().startHeartbeat();
 
         Scanner scanner = new Scanner(System.in);
         cliHandler = new CLIHandler(scanner, new PrintStream(System.out));
-
 
         Arrays.asList(
                 new ConnectCommand(),

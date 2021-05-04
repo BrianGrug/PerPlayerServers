@@ -6,18 +6,16 @@ import com.github.dockerjava.api.model.ExposedPort;
 import com.github.dockerjava.api.model.Ports;
 import com.mizuledevelopment.master.MasterApplication;
 import com.mizuledevelopment.master.manager.NodeManager;
-import com.mizuledevelopment.master.manager.ServerModel;
+import com.mizuledevelopment.master.objects.ServerModel;
 import com.mizuledevelopment.master.rcon.RconClient;
 import io.github.revxrsal.cub.annotation.Command;
 import io.github.revxrsal.cub.annotation.Description;
 import lombok.SneakyThrows;
-import org.apache.commons.lang.RandomStringUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.*;
 
 public class CreateCommand {
 
@@ -50,6 +48,7 @@ public class CreateCommand {
         CreateContainerResponse container = MasterApplication.getDockerClient().createContainerCmd("daddyimpregnant/testing:latest")
                 .withPortBindings(ports)
                 .withName(name)
+                .withEnv("ID=" + name)
                 .exec();
 
         MasterApplication.getDockerClient().startContainerCmd(container.getId()).exec();
@@ -58,7 +57,6 @@ public class CreateCommand {
         serverModel.setHost("192.168.1.27");
         serverModel.setContainerID(container.getId());
         serverModel.setName(name);
-        serverModel.setRconClient(null);
         serverModel.setRconPort(portBindings.get(13582));
         serverModel.setTime(System.currentTimeMillis());
         serverModel.setUuid(UUID.randomUUID());

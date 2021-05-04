@@ -1,7 +1,6 @@
 package com.mizuledevelopment.node;
 
 import com.mizuledevelopment.node.jedis.JedisManager;
-import com.mizuledevelopment.node.jedis.JedisPublisher;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -14,6 +13,6 @@ public class NodePlugin extends JavaPlugin {
         plugin = this;
 
         jedisManager = new JedisManager(getConfig().getString("redis.host"), getConfig().getInt("redis.port"), "Testing-Master", getConfig().getString("password"));
-        new JedisPublisher(jedisManager).publishData("PING");
+        System.out.println("SERVER ID: " + System.getenv("ID"));
     }
 }

@@ -1,5 +1,6 @@
 package com.mizuledevelopment.node.jedis;
 
+import com.mizuledevelopment.node.NodePlugin;
 import lombok.Getter;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -30,11 +31,6 @@ public class JedisManager {
         new Thread(() -> jedis.subscribe(startPubSub(), jedisChannel)).start();
     }
 
-    /**
-     * Start the {@link JedisPubSub}
-     *
-     * @return {@link JedisPubSub} implementation
-     */
     private JedisPubSub startPubSub() {
         return new JedisPubSub() {
             @Override
@@ -48,7 +44,7 @@ public class JedisManager {
 
                 switch (data[0]) {
                     case "PING":
-                        System.out.println("Heartbeat received!");
+                        new JedisPublisher(NodePlugin.getJedisManager()).publishData("PING///" + System.getenv("ID"));
                         break;
                     default:
                         break;

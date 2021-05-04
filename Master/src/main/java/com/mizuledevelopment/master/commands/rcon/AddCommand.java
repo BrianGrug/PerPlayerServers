@@ -1,21 +1,13 @@
 package com.mizuledevelopment.master.commands.rcon;
 
-import com.github.dockerjava.api.command.CreateContainerResponse;
-import com.github.dockerjava.api.model.ExposedPort;
-import com.github.dockerjava.api.model.Ports;
-import com.mizuledevelopment.master.MasterApplication;
-import com.mizuledevelopment.master.manager.ServerModel;
+import com.mizuledevelopment.master.objects.ServerModel;
 import com.mizuledevelopment.master.rcon.RconClient;
 import io.github.revxrsal.cub.annotation.Command;
 import io.github.revxrsal.cub.annotation.Description;
 import io.github.revxrsal.cub.annotation.Flag;
 import io.github.revxrsal.cub.annotation.Named;
 import lombok.SneakyThrows;
-import org.apache.commons.lang.RandomStringUtils;
 
-import java.net.URI;
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 public class AddCommand {
@@ -32,7 +24,6 @@ public class AddCommand {
         serverModel.setServerPort(serverPort);
         serverModel.setHost(host);
         serverModel.setName(name);
-        serverModel.setRconClient(rconClient);
         serverModel.setRconPort(rconPort);
         serverModel.setTime(System.currentTimeMillis());
         serverModel.setUuid(UUID.randomUUID());

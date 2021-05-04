@@ -1,13 +1,12 @@
 package com.mizuledevelopment.master.manager;
 
 import com.mizuledevelopment.master.mongo.Mongo;
-import com.mizuledevelopment.master.rcon.RconClient;
+import com.mizuledevelopment.master.objects.ServerModel;
 import com.mongodb.client.model.Filters;
 import lombok.Getter;
 import org.bson.conversions.Bson;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 public class NodeManager {
 
@@ -42,7 +41,7 @@ public class NodeManager {
     public static void save(ServerModel serverModel) {
         if (serverModel.getName() == null) throw new NullPointerException("Name Cannot be equal to null!");
 
-        Bson filter = Filters.eq("_id", serverModel.getUuid());
+        Bson filter = Filters.eq("name", serverModel.getName());
 
         serverCache.put(serverModel.getName(), serverModel);
 

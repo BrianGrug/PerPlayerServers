@@ -1,5 +1,7 @@
 package com.mizuledevelopment.master.rcon;
 
+import com.mizuledevelopment.master.MasterApplication;
+import com.mizuledevelopment.master.objects.ServerModel;
 import com.mizuledevelopment.master.rcon.ex.AuthFailureException;
 import com.mizuledevelopment.master.rcon.ex.RconClientException;
 import lombok.SneakyThrows;
@@ -25,6 +27,10 @@ public class RconClient implements Closeable {
     private RconClient(SocketChannel socketChannel) {
         this.socketChannel = Objects.requireNonNull(socketChannel, "socketChannel");
         this.currentRequestId = new AtomicInteger(1);
+    }
+
+    public static RconClient open(ServerModel serverModel) {
+        return open(serverModel.getHost(), serverModel.getRconPort(), MasterApplication.getRconPassword());
     }
 
     @SneakyThrows

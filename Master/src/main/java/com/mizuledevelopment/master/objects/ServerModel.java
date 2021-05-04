@@ -1,4 +1,4 @@
-package com.mizuledevelopment.master.manager;
+package com.mizuledevelopment.master.objects;
 
 import com.mizuledevelopment.master.rcon.RconClient;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,6 @@ public class ServerModel {
     private int rconPort;
     private int serverPort;
     private String rconPassword;
-    private RconClient rconClient;
     private long time;
 
 }
