@@ -7,16 +7,12 @@ import lombok.Getter;
 import org.bson.conversions.Bson;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class NodeManager {
 
-    @Getter private static HashMap<String, ServerModel> serverCache;
-    @Getter private static HashMap<String, ServerModel> activeServers;
-
-    public NodeManager() {
-        serverCache = new HashMap<>();
-        activeServers = new HashMap<>();
-    }
+    @Getter private static final Map<String, ServerModel> serverCache = new HashMap<>();
+    @Getter private static final Map<String, ServerModel> activeServers = new HashMap<>();
 
     public static ServerModel getServer(String name) {
         ServerModel serverModel;

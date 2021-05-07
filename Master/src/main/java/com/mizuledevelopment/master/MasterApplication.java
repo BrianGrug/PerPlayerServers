@@ -29,7 +29,6 @@ import java.util.Scanner;
 public class MasterApplication {
 
     @Getter private static CLIHandler cliHandler;
-    @Getter private static NodeManager nodeManager;
     @Getter private static JedisManager jedisManager;
     @Getter private static String rconPassword; //TODO remove
     @Getter private static DockerClient dockerClient;
@@ -52,8 +51,6 @@ public class MasterApplication {
         dockerClient = DockerClientBuilder.getInstance(clientConfig).build();
 
         new Mongo().connectMongo();
-
-        nodeManager = new NodeManager();
 
         jedisManager = new JedisManager(config.getProperty("redis.host"), Integer.parseInt(config.getProperty("redis.port")), "Testing-Master", System.getProperty("redis.password"));
 
