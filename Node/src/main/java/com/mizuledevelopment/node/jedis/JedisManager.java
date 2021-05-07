@@ -35,16 +35,17 @@ public class JedisManager {
         return new JedisPubSub() {
             @Override
             public void onMessage(String channel, String message) {
+                System.out.println(message + " : " + channel);
 
                 if(!channel.equals(jedisChannel)) return;
 
                 String[] data = message.split("///");
 
-                System.out.println("Received command " + data[0]);
+                System.out.println("Received command " + message);
 
                 switch (data[0]) {
-                    case "PING":
-                        new JedisPublisher(NodePlugin.getJedisManager()).publishData("PING///" + System.getenv("ID"));
+                    case "STOP":
+                        String stop = "Kys";
                         break;
                     default:
                         break;

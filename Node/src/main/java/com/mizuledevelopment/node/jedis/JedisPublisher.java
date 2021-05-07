@@ -1,25 +1,16 @@
 package com.mizuledevelopment.node.jedis;
 
+import com.mizuledevelopment.node.NodePlugin;
 import redis.clients.jedis.Jedis;
 
 public class JedisPublisher {
 
-    private Jedis jedis;
-    private JedisManager jedisManager;
-
-    public JedisPublisher(JedisManager jedisManager) {
-        this.jedisManager = jedisManager;
-    }
-
     public void publishData(String message) {
-        try {
-            this.jedis = jedisManager.getJedisPool().getResource();
+        Jedis jedis = NodePlugin.getJedisManager().getJedisPool().getResource();
 
-            if(jedisManager.getJedisPassword() != null) jedis.auth(jedisManager.getJedisPassword());
+        if (NodePlugin.getJedisManager().getJedisPassword() != null) jedis.auth(NodePlugin.getJedisManager().getJedisPassword());
 
-            jedis.publish(jedisManager.getJedisChannel(), message);
-        } finally {
-            this.jedis.close();
-        }
+        jedis.publish(NodePlugin.getJedisManager().getJedisChannel(), message);
+        jedis.close();
     }
 }

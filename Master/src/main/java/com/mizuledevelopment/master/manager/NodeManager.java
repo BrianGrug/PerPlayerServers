@@ -11,10 +11,12 @@ import java.util.HashMap;
 public class NodeManager {
 
     @Getter private static HashMap<String, ServerModel> serverCache;
+    @Getter private static HashMap<String, ServerModel> activeServers;
     private String name;
 
     public NodeManager() {
         serverCache = new HashMap<>();
+        activeServers = new HashMap<>();
     }
 
     public static ServerModel getServer(String name) {
@@ -36,6 +38,10 @@ public class NodeManager {
             serverCache.put(serverModel.getName(), serverModel);
         }
         return serverCache.get(serverModel.getName());
+    }
+
+    public static void cache(ServerModel serverModel) {
+        activeServers.put(serverModel.getName(), serverModel);
     }
 
     public static void save(ServerModel serverModel) {

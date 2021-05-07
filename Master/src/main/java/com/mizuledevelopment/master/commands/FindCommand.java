@@ -17,7 +17,8 @@ public class FindCommand {
                 "Server port: " + server.getServerPort(),
                 "Rcon port: " + server.getRconPort(),
                 "Server UUID: " + server.getUuid(),
-                "Last ping: " + server.getTime()
+                "Last ping: " + server.getTime(),
+                "Online? " + NodeManager.getActiveServers().containsKey(server.getName())
         ).forEach(System.out::println);
     }
 }
