@@ -1,0 +1,16 @@
+FROM openjdk:8
+
+MAINTAINER DaddyImPregnant <bryeguy527@gmail.com>
+
+EXPOSE 25565
+EXPOSE 13582
+
+RUN mkdir -p /srv/minecraft
+
+COPY . /srv/minecraft
+
+WORKDIR /srv/minecraft
+
+RUN chmod a+rwX /srv/minecraft/ -R
+
+CMD ["java", "-Xmx8192M", "-jar", "spigot.jar"]
