@@ -39,7 +39,9 @@ public class MasterApplication {
     public static void main(String[] args) {
         copyResource();
 
-        if(!new File("config.properties").exists()) System.out.println("Config not found. Starting will fail.");
+        if (!new File("config.properties").exists()) {
+            System.out.println("Config not found. Starting will fail.");
+        }
 
         config = new Properties();
         config.load(new FileInputStream("config.properties"));
@@ -76,6 +78,7 @@ public class MasterApplication {
         cliHandler.requestInput();
 
     }
+    
     @SneakyThrows
     public static void copyResource() {
         URL inputUrl = MasterApplication.class.getResource("/config.properties");

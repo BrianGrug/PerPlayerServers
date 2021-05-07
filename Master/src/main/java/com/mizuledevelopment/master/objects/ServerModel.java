@@ -1,7 +1,5 @@
 package com.mizuledevelopment.master.objects;
 
-import com.mizuledevelopment.master.rcon.RconClient;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.UUID;
