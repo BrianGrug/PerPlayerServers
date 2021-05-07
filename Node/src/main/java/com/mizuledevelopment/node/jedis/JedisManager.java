@@ -35,17 +35,13 @@ public class JedisManager {
         return new JedisPubSub() {
             @Override
             public void onMessage(String channel, String message) {
-                System.out.println(message + " : " + channel);
-
                 if(!channel.equals(jedisChannel)) return;
 
                 String[] data = message.split("///");
 
-                System.out.println("Received command " + message);
-
                 switch (data[0]) {
                     case "STOP":
-                        String stop = "Kys";
+                        //TODO Add other cases, stop is just a placeholder
                         break;
                     default:
                         break;

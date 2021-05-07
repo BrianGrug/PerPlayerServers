@@ -32,6 +32,8 @@
                             <inclide>redis.clients:jedis</inclide>
                             <include>javax.json:javax.json-api</include>
                             <include>org.glassfish:javax.json</include>
+                            <include>com.github.docker-java:*</include>
+                            <include>commons-io:*</include>
                         </includes>
                     </artifactSet>
                 </configuration>
@@ -43,6 +45,18 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.mizuledevelopment.master.MasterApplication</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -98,6 +112,11 @@
             <groupId>org.glassfish</groupId>
             <artifactId>javax.json</artifactId>
             <version>1.1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.8.0</version>
         </dependency>
     </dependencies>
 

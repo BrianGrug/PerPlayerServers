@@ -1,5 +1,6 @@
 package com.mizuledevelopment.master.mongo;
 
+import com.mizuledevelopment.master.MasterApplication;
 import com.mizuledevelopment.master.objects.ServerModel;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
@@ -30,7 +31,7 @@ public class Mongo {
                 fromProviders(PojoCodecProvider.builder().automatic(true).build()));
 
         String connection;
-        connection = "mongodb://" + "localhost" + ":" + "27017";
+        connection = "mongodb://" + MasterApplication.getConfig().getProperty("mongo.host") + ":" + MasterApplication.getConfig().getProperty("mongo.port");
 
         MongoClientSettings settings = MongoClientSettings.builder().codecRegistry(pojoCodecRegistry).applyConnectionString(new ConnectionString(connection)).build();
         mongoClient = MongoClients.create(settings);

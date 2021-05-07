@@ -12,7 +12,6 @@ public class NodeManager {
 
     @Getter private static HashMap<String, ServerModel> serverCache;
     @Getter private static HashMap<String, ServerModel> activeServers;
-    private String name;
 
     public NodeManager() {
         serverCache = new HashMap<>();
@@ -42,6 +41,13 @@ public class NodeManager {
 
     public static void cache(ServerModel serverModel) {
         activeServers.put(serverModel.getName(), serverModel);
+    }
+
+    public static void removeServer(ServerModel serverModel) {
+        activeServers.remove(serverModel.getName());
+
+        Bson filter = Filters.eq("name", serverModel.getName());
+        Mongo.getServerCollection().deleteOne(filter);
     }
 
     public static void save(ServerModel serverModel) {

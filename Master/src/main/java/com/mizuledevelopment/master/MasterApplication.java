@@ -15,9 +15,15 @@ import com.mizuledevelopment.master.threads.CleanupThread;
 import io.github.revxrsal.cub.cli.core.CLIHandler;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import org.apache.commons.io.FileUtils;
 
-import java.io.PrintStream;
+import java.io.*;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
+import java.util.Properties;
 import java.util.Scanner;
 
 public class MasterApplication {
@@ -27,19 +33,27 @@ public class MasterApplication {
     @Getter private static JedisManager jedisManager;
     @Getter private static String rconPassword; //TODO remove
     @Getter private static DockerClient dockerClient;
+    @Getter private static Properties config;
 
     @SneakyThrows
     public static void main(String[] args) {
-        rconPassword = "Testing123";
+        copyResource();
 
-        DockerClientConfig clientConfig = DefaultDockerClientConfig.createDefaultConfigBuilder().withDockerHost("tcp://192.168.1.27:2375").build();
+        if(!new File("config.properties").exists()) System.out.println("Config not found. Starting will fail.");
+
+        config = new Properties();
+        config.load(new FileInputStream("config.properties"));
+
+        rconPassword = config.getProperty("rcon.password");
+
+        DockerClientConfig clientConfig = DefaultDockerClientConfig.createDefaultConfigBuilder().withDockerHost(config.getProperty("docker.host")).build();
         dockerClient = DockerClientBuilder.getInstance(clientConfig).build();
 
         new Mongo().connectMongo();
 
         nodeManager = new NodeManager();
 
-        jedisManager = new JedisManager("192.168.1.12", 6379, "Testing-Master", null);
+        jedisManager = new JedisManager(config.getProperty("redis.host"), Integer.parseInt(config.getProperty("redis.port")), "Testing-Master", System.getProperty("redis.password"));
 
 
         Scanner scanner = new Scanner(System.in);
@@ -61,5 +75,11 @@ public class MasterApplication {
 
         cliHandler.requestInput();
 
+    }
+    @SneakyThrows
+    public static void copyResource() {
+        URL inputUrl = MasterApplication.class.getResource("/config.properties");
+        File dest = new File("config.properties");
+        FileUtils.copyURLToFile(inputUrl, dest);
     }
 }

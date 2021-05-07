@@ -10,6 +10,7 @@ import com.mizuledevelopment.master.objects.ServerModel;
 import com.mizuledevelopment.master.rcon.RconClient;
 import io.github.revxrsal.cub.annotation.Command;
 import io.github.revxrsal.cub.annotation.Description;
+import io.github.revxrsal.cub.annotation.Named;
 import lombok.SneakyThrows;
 
 import java.util.Arrays;
@@ -23,7 +24,7 @@ public class CreateCommand {
     @Command("create")
     @Description("Create a server with Docker")
     @SneakyThrows
-    public void createServer(String name) {
+    public void createServer(@Named("Name") String name, @Named("Image") String type) {
 
         ServerModel serverModel = new ServerModel();
 
@@ -45,7 +46,7 @@ public class CreateCommand {
             }
         });
 
-        CreateContainerResponse container = MasterApplication.getDockerClient().createContainerCmd("daddyimpregnant/testing:latest")
+        CreateContainerResponse container = MasterApplication.getDockerClient().createContainerCmd(MasterApplication.getConfig().getProperty("docker.user") +  "/" + type + ":latest")
                 .withPortBindings(ports)
                 .withName(name)
                 .withEnv("ID=" + name)
@@ -54,7 +55,7 @@ public class CreateCommand {
         MasterApplication.getDockerClient().startContainerCmd(container.getId()).exec();
 
         serverModel.setServerPort(portBindings.get(25565));
-        serverModel.setHost("192.168.1.27");
+        serverModel.setHost(MasterApplication.getConfig().getProperty("docker.ip"));
         serverModel.setContainerID(container.getId());
         serverModel.setName(name);
         serverModel.setRconPort(portBindings.get(13582));

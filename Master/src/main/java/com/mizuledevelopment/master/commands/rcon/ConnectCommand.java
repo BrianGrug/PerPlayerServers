@@ -21,7 +21,7 @@ public class ConnectCommand {
 
         ServerModel serverModel = NodeManager.getServer(name);
 
-        RconClient rconClient = RconClient.open("192.168.1.27", serverModel.getRconPort(), MasterApplication.getRconPassword());
+        RconClient rconClient = RconClient.open(MasterApplication.getConfig().getProperty("docker.ip"), serverModel.getRconPort(), MasterApplication.getRconPassword());
 
         NodeManager.save(serverModel);
 
