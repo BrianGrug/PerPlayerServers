@@ -12,15 +12,8 @@ public class CleanupThread {
     public void cleanup() {
         Runnable heartbeat = () -> {
             NodeManager.getActiveServers().forEach((name, server) -> {
-                Arrays.asList(
-                        "Last ping: " + (System.currentTimeMillis() - server.getTime()),
-                        "Server: " + server.getName()
-
-                ).forEach(System.out::println);
-
-                if ((System.currentTimeMillis() - server.getTime()) > 10000) {
+                if ((System.currentTimeMillis() - server.getTime()) > 15000) {
                     NodeManager.getActiveServers().remove(name);
-                    System.out.println("Removed " + server.getName());
                 }
             });
         };

@@ -8,7 +8,5 @@ public class DebugCommand {
     @Command("debug")
     public void debug(){
         NodeManager.getActiveServers().forEach((s, serverModel) -> System.out.println(s));
-
-
     }
 }
