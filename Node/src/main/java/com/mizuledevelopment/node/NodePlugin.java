@@ -6,19 +6,21 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
 
+@Getter
 public class NodePlugin extends JavaPlugin {
 
-    @Getter private static NodePlugin plugin;
-    @Getter private static JedisManager jedisManager;
+    @Getter private static NodePlugin instance;
+    private JedisManager jedisManager;
 
-    @Getter @Setter private static long lastPing;
+    private final String serverID = System.getenv("ID");
 
     public void onEnable() {
-        plugin = this;
+        NodePlugin.instance = this;
 
-        jedisManager = new JedisManager(getConfig().getString("redis.host"), getConfig().getInt("redis.port"), "Testing-Master", getConfig().getString("password"));
-        System.out.println("SERVER ID: " + System.getenv("ID"));
+        this.jedisManager = new JedisManager(this.getConfig().getString("redis.host"), this.getConfig().getInt("redis.port"), "Testing-Master", this.getConfig().getString("password"));
+        System.out.println("SERVER ID: " + this.serverID);
 
         new PingRunnable().runTaskTimer(this, 0L, 100L);
     }
+
 }

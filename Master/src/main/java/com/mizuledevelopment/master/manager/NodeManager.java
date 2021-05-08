@@ -1,62 +1,59 @@
 package com.mizuledevelopment.master.manager;
 
-import com.mizuledevelopment.master.mongo.Mongo;
+import com.mizuledevelopment.master.MasterApplication;
 import com.mizuledevelopment.master.objects.ServerModel;
 import com.mongodb.client.model.Filters;
 import lombok.Getter;
-import org.bson.conversions.Bson;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Getter
 public class NodeManager {
 
-    @Getter private static final Map<String, ServerModel> serverCache = new HashMap<>();
-    @Getter private static final Map<String, ServerModel> activeServers = new HashMap<>();
+    private final Map<String, ServerModel> serverCache = new HashMap<>();
+    private final Map<String, ServerModel> activeServers = new HashMap<>();
 
-    public static ServerModel getServer(String name) {
-        ServerModel serverModel;
+    public ServerModel getServer(ServerModel serverModel) {
+        return this.getServer(serverModel.getName());
+    }
 
-        if(!serverCache.containsKey(name)) {
-            serverModel = Mongo.getServerCollection().find(Filters.eq("name", name)).first();
-            if(serverModel == null) throw new NullPointerException("Cannot find server with name " + name);
-            serverCache.put(serverModel.getName(), serverModel);
+    public ServerModel getServer(String serverName) {
+        if (!this.serverCache.containsKey(serverName)) {
+            ServerModel serverModel = MasterApplication.getInstance().getMongoManager().getServerCollection().find(Filters.eq("name", serverName)).first();
+
+            if (serverModel == null)
+                throw new NullPointerException("Cannot find server with name " + serverName);
+
+            this.serverCache.put(serverModel.getName(), serverModel);
         }
-        return serverCache.get(name);
+
+        return this.serverCache.get(serverName);
     }
 
-    public static ServerModel getServer(ServerModel serverModel) {
-
-        if(!serverCache.containsKey(serverModel.getName())) {
-            serverModel = Mongo.getServerCollection().find(Filters.eq("name", serverModel.getName())).first();
-            if(serverModel == null) throw new NullPointerException("Cannot find punishment with name " + serverModel.getName());
-            serverCache.put(serverModel.getName(), serverModel);
-        }
-        return serverCache.get(serverModel.getName());
+    public void cache(ServerModel serverModel) {
+        this.activeServers.put(serverModel.getName(), serverModel);
     }
 
-    public static void cache(ServerModel serverModel) {
-        activeServers.put(serverModel.getName(), serverModel);
+    public void removeServer(ServerModel serverModel) {
+        this.removeServer(serverModel.getName());
     }
 
-    public static void removeServer(ServerModel serverModel) {
-        activeServers.remove(serverModel.getName());
-
-        Bson filter = Filters.eq("name", serverModel.getName());
-        Mongo.getServerCollection().deleteOne(filter);
+    public void removeServer(String serverName) {
+        this.activeServers.remove(serverName);
+        MasterApplication.getInstance().getMongoManager().getServerCollection().deleteOne(Filters.eq("name", serverName));
     }
 
-    public static void save(ServerModel serverModel) {
-        if (serverModel.getName() == null) throw new NullPointerException("Name Cannot be equal to null!");
+    public void save(ServerModel serverModel) {
+        if (serverModel.getName() == null)
+            throw new NullPointerException("Name Cannot be equal to null!");
 
-        Bson filter = Filters.eq("name", serverModel.getName());
+        this.serverCache.put(serverModel.getName(), serverModel);
 
-        serverCache.put(serverModel.getName(), serverModel);
-
-        if (Mongo.getServerCollection().find(Filters.eq("name", serverModel.getName())).first() == null) {
-            Mongo.getServerCollection().insertOne(serverModel);
-            return;
-        }
-        Mongo.getServerCollection().replaceOne(filter, serverModel);
+        if (MasterApplication.getInstance().getMongoManager().getServerCollection().find(Filters.eq("name", serverModel.getName())).first() == null)
+            MasterApplication.getInstance().getMongoManager().getServerCollection().insertOne(serverModel);
+        else
+            MasterApplication.getInstance().getMongoManager().getServerCollection().replaceOne(Filters.eq("name", serverModel.getName()), serverModel);
     }
+
 }

@@ -16,14 +16,12 @@ public class ConnectCommand {
 
     @Command(value = "connect", aliases = {"reconnect", "establish", "use"})
     @Description("Connect to other servers via Rcon")
-    @SneakyThrows
     public void connect(@Named("host") String name) {
+        ServerModel serverModel = MasterApplication.getInstance().getNodeManager().getServer(name);
 
-        ServerModel serverModel = NodeManager.getServer(name);
+        RconClient rconClient = RconClient.open(MasterApplication.getInstance().getConfig().getProperty("docker.ip"), serverModel.getRconPort(), MasterApplication.getInstance().getRconPassword());
 
-        RconClient rconClient = RconClient.open(MasterApplication.getConfig().getProperty("docker.ip"), serverModel.getRconPort(), MasterApplication.getRconPassword());
-
-        NodeManager.save(serverModel);
+        MasterApplication.getInstance().getNodeManager().save(serverModel);
 
         System.out.print("> ");
 
@@ -40,4 +38,5 @@ public class ConnectCommand {
             System.out.print("> ");
         }
     }
+
 }

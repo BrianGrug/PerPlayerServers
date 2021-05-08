@@ -11,6 +11,7 @@ public class HelpCommand {
     @Command("help")
     @Description("Returns all commands")
     public void onHelp() {
-        MasterApplication.getCliHandler().getCommands().forEach((s, handledCommand) -> System.out.println(handledCommand.getName() + ": " + handledCommand.getDescription()));
+        MasterApplication.getInstance().getCliHandler().getCommands().forEach((s, handledCommand) -> System.out.println(handledCommand.getName() + ": " + handledCommand.getDescription()));
     }
+
 }

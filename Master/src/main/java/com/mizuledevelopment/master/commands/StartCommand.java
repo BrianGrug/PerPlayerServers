@@ -8,6 +8,7 @@ public class StartCommand {
 
     @Command("start")
     public void startServer(String name) {
-        MasterApplication.getDockerClient().startContainerCmd(NodeManager.getServer(name).getContainerID()).exec();
+        MasterApplication.getInstance().getDockerClient().startContainerCmd(MasterApplication.getInstance().getNodeManager().getServer(name).getContainerID()).exec();
     }
+
 }

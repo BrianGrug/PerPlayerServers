@@ -1,5 +1,6 @@
 package com.mizuledevelopment.master.commands;
 
+import com.mizuledevelopment.master.MasterApplication;
 import com.mizuledevelopment.master.manager.NodeManager;
 import com.mizuledevelopment.master.objects.ServerModel;
 import com.mizuledevelopment.master.rcon.RconClient;
@@ -11,6 +12,7 @@ public class StopCommand {
     @Command("stop")
     @Description("Stop a server")
     public void startServer(String name) {
-        RconClient.open(NodeManager.getServer(name)).sendCommand("stop");
+        RconClient.open(MasterApplication.getInstance().getNodeManager().getServer(name)).sendCommand("stop");
     }
+
 }

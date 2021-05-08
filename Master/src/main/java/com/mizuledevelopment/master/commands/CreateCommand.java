@@ -20,14 +20,9 @@ import java.util.concurrent.*;
 
 public class CreateCommand {
 
-
     @Command("create")
     @Description("Create a server with Docker")
-    @SneakyThrows
     public void createServer(@Named("Name") String name, @Named("Image") String type) {
-
-        ServerModel serverModel = new ServerModel();
-
         Ports ports = new Ports();
         HashMap<Integer, Integer> portBindings = new HashMap<>();
 
@@ -39,32 +34,32 @@ public class CreateCommand {
                 int randomPort = ThreadLocalRandom.current().nextInt(49152, 65535 + 1);
                 ports.bind(ExposedPort.tcp(port), Ports.Binding.bindPort(randomPort));
                 portBindings.put(port, randomPort);
-            }catch (InternalServerErrorException e) {
+            } catch (InternalServerErrorException e) {
                 int randomPort = ThreadLocalRandom.current().nextInt(49152, 65535 + 1);
                 ports.bind(ExposedPort.tcp(port), Ports.Binding.bindPort(randomPort));
                 portBindings.put(port, randomPort);
             }
         });
 
-        CreateContainerResponse container = MasterApplication.getDockerClient().createContainerCmd(MasterApplication.getConfig().getProperty("docker.user") +  "/" + type + ":latest")
+        CreateContainerResponse container = MasterApplication.getInstance().getDockerClient().createContainerCmd(MasterApplication.getInstance().getConfig().getProperty("docker.user") +  "/" + type + ":latest")
                 .withPortBindings(ports)
                 .withName(name)
                 .withEnv("ID=" + name)
                 .exec();
 
-        MasterApplication.getDockerClient().startContainerCmd(container.getId()).exec();
+        MasterApplication.getInstance().getDockerClient().startContainerCmd(container.getId()).exec();
 
+        ServerModel serverModel = new ServerModel();
         serverModel.setServerPort(portBindings.get(25565));
-        serverModel.setHost(MasterApplication.getConfig().getProperty("docker.ip"));
+        serverModel.setHost(MasterApplication.getInstance().getConfig().getProperty("docker.ip"));
         serverModel.setContainerID(container.getId());
         serverModel.setName(name);
         serverModel.setRconPort(portBindings.get(13582));
         serverModel.setTime(System.currentTimeMillis());
         serverModel.setUuid(UUID.randomUUID());
-        serverModel.setRconPassword(MasterApplication.getRconPassword());
+        serverModel.setRconPassword(MasterApplication.getInstance().getRconPassword());
 
-        NodeManager.save(serverModel);
-
-        NodeManager.getServerCache().put(name, serverModel);
+        MasterApplication.getInstance().getNodeManager().save(serverModel);
     }
+
 }
