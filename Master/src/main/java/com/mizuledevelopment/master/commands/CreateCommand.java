@@ -41,25 +41,24 @@ public class CreateCommand {
             }
         });
 
+        ServerModel serverModel = new ServerModel();
         CreateContainerResponse container = MasterApplication.getInstance().getDockerClient().createContainerCmd(MasterApplication.getInstance().getConfig().getProperty("docker.user") +  "/" + type + ":latest")
                 .withPortBindings(ports)
-                .withName(name)
+                .withName(serverModel.getUuid().toString())
                 .withEnv("ID=" + name)
                 .exec();
 
-        MasterApplication.getInstance().getDockerClient().startContainerCmd(container.getId()).exec();
-
-        ServerModel serverModel = new ServerModel();
         serverModel.setServerPort(portBindings.get(25565));
         serverModel.setHost(MasterApplication.getInstance().getConfig().getProperty("docker.ip"));
         serverModel.setContainerID(container.getId());
         serverModel.setName(name);
         serverModel.setRconPort(portBindings.get(13582));
         serverModel.setTime(System.currentTimeMillis());
-        serverModel.setUuid(UUID.randomUUID());
         serverModel.setRconPassword(MasterApplication.getInstance().getRconPassword());
 
+        MasterApplication.getInstance().getDockerClient().startContainerCmd(container.getId()).exec();
         MasterApplication.getInstance().getNodeManager().save(serverModel);
+        MasterApplication.getInstance().getJedisManager().getJedisPublisher().publishData("CREATE///" + serverModel.getName() + "///" + serverModel.getServerPort());
     }
 
 }

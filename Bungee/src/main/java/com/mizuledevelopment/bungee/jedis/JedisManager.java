@@ -16,7 +16,7 @@ public class JedisManager {
         this.jedisPool = new JedisPool(host, port);
         this.jedisChannel = jedisChannel;
 
-        if (jedisPassword != null)
+        if (jedisPassword != null && !jedisPassword.isEmpty())
             this.jedisPool.getResource().auth(jedisPassword);
 
         new Thread(() -> this.jedisPool.getResource().subscribe(this.jedisSubscriber, this.jedisChannel)).start();

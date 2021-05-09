@@ -17,10 +17,13 @@ public class NodePlugin extends JavaPlugin {
     public void onEnable() {
         NodePlugin.instance = this;
 
-        this.jedisManager = new JedisManager(this.getConfig().getString("redis.host"), this.getConfig().getInt("redis.port"), "Testing-Master", this.getConfig().getString("password"));
-        System.out.println("SERVER ID: " + this.serverID);
+        this.saveDefaultConfig();
 
-        new PingRunnable().runTaskTimer(this, 0L, 100L);
+        this.jedisManager = new JedisManager(this.getConfig().getString("redis.host"), this.getConfig().getInt("redis.port"), "Testing-Master", this.getConfig().getString("password"));
+
+        this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new PingRunnable(), 0L, 100L);
+
+        System.out.println("SERVER ID: " + this.serverID);
     }
 
 }

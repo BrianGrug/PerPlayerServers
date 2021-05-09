@@ -17,4 +17,5 @@ public class BungeeUtils {
         BungeePlugin.getInstance().getProxy().getPlayers().forEach(player -> player.disconnect(new TextComponent("This server has been closed.")));
         ProxyServer.getInstance().getServers().remove(name);
     }
+
 }
