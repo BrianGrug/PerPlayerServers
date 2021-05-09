@@ -38,7 +38,7 @@ public class BungeePlugin extends Plugin {
         if (!configFile.exists()) {
             configFile.createNewFile();
 
-            try (InputStream in = getResourceAsStream("config.yml");
+            try (InputStream in = this.getResourceAsStream("config.yml");
                 OutputStream out = new FileOutputStream(configFile)) {
                 ByteStreams.copy(in, out);
             }
