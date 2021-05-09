@@ -1,9 +1,12 @@
 package com.mizuledevelopment.bungee.jedis;
 
+import com.mizuledevelopment.bungee.utils.BungeeUtils;
 import lombok.Getter;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
+
+import java.net.InetSocketAddress;
 
 public class BungeeJedisManager {
 
@@ -37,8 +40,13 @@ public class BungeeJedisManager {
                 String[] data = message.split("///");
 
                 switch (data[0]) {
-                    case "STOP":
-                        //TODO Add other cases, stop is just a placeholder
+                    case "ADD":
+                        if(data.length < 4) return;
+                        BungeeUtils.addServer(data[1], InetSocketAddress.createUnresolved(data[2], Integer.parseInt(data[3])), false);
+                        break;
+                    case "DELETE":
+                        if(data.length < 4) return;
+                        BungeeUtils.removeServer(data[1]);
                         break;
                     default:
                         break;

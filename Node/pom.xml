@@ -30,6 +30,7 @@
                             <include>org.mongodb:mongo-java-driver</include>
                             <include>org.jsoup:jsoup</include>
                             <include>com.google.code.gson:gson</include>
+                            <include>redis.clients:*</include>
                             <include>org.apache.commons:commons-pool2</include>
                             <include>org.slf4j:*</include>
                         </includes>

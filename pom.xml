@@ -13,7 +13,6 @@
         <module>Master</module>
         <module>Node</module>
         <module>Bungee</module>
-        <module>Bungee</module>
     </modules>
 
     <build>
@@ -60,13 +59,12 @@
 
 
     <dependencies>
-        <dependency> <!-- We can make this a global dependency-->
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.20</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>

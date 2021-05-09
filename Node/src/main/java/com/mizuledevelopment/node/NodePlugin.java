@@ -8,17 +8,23 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class NodePlugin extends JavaPlugin {
 
-    @Getter private static NodePlugin plugin;
-    @Getter private static JedisManager jedisManager;
+    @Getter
+    private static NodePlugin plugin;
+    @Getter
+    private static JedisManager jedisManager;
 
-    @Getter @Setter private static long lastPing;
+    @Getter
+    @Setter
+    private static long lastPing;
 
     public void onEnable() {
         plugin = this;
 
+        saveDefaultConfig();
+
         jedisManager = new JedisManager(getConfig().getString("redis.host"), getConfig().getInt("redis.port"), "Testing-Master", getConfig().getString("password"));
         System.out.println("SERVER ID: " + System.getenv("ID"));
 
-        new PingRunnable().runTaskTimer(this, 0L, 100L);
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, new PingRunnable(), 0L, 100L);
     }
 }

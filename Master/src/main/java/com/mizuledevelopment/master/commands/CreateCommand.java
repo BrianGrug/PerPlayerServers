@@ -5,6 +5,7 @@ import com.github.dockerjava.api.exception.InternalServerErrorException;
 import com.github.dockerjava.api.model.ExposedPort;
 import com.github.dockerjava.api.model.Ports;
 import com.mizuledevelopment.master.MasterApplication;
+import com.mizuledevelopment.master.jedis.JedisPublisher;
 import com.mizuledevelopment.master.manager.NodeManager;
 import com.mizuledevelopment.master.objects.ServerModel;
 import com.mizuledevelopment.master.rcon.RconClient;
@@ -46,25 +47,30 @@ public class CreateCommand {
             }
         });
 
-        CreateContainerResponse container = MasterApplication.getDockerClient().createContainerCmd(MasterApplication.getConfig().getProperty("docker.user") +  "/" + type + ":latest")
-                .withPortBindings(ports)
-                .withName(name)
-                .withEnv("ID=" + name)
-                .exec();
-
-        MasterApplication.getDockerClient().startContainerCmd(container.getId()).exec();
-
         serverModel.setServerPort(portBindings.get(25565));
         serverModel.setHost(MasterApplication.getConfig().getProperty("docker.ip"));
-        serverModel.setContainerID(container.getId());
         serverModel.setName(name);
         serverModel.setRconPort(portBindings.get(13582));
         serverModel.setTime(System.currentTimeMillis());
         serverModel.setUuid(UUID.randomUUID());
         serverModel.setRconPassword(MasterApplication.getRconPassword());
 
+        CreateContainerResponse container = MasterApplication.getDockerClient().createContainerCmd(MasterApplication.getConfig().getProperty("docker.user") +  "/" + type + ":latest")
+                .withPortBindings(ports)
+                .withName(serverModel.getUuid().toString())
+                .withEnv("ID=" + name)
+                .exec();
+
+        serverModel.setContainerID(container.getId());
+
+        MasterApplication.getDockerClient().startContainerCmd(container.getId()).exec();
+
+
+
         NodeManager.save(serverModel);
 
         NodeManager.getServerCache().put(name, serverModel);
+
+        new JedisPublisher().publishData("CREATE///" + serverModel.getName() + "///" + serverModel.getServerPort());
     }
 }
