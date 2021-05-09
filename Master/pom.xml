@@ -20,6 +20,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.mizuledevelopment</groupId>
+            <artifactId>PerPlayerServers-Shared</artifactId>
+            <version>dev</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>com.github.ReflxctionDev</groupId>
             <artifactId>cub</artifactId>
             <version>1.8.0</version>

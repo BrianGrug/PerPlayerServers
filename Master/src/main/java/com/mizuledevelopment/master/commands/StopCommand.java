@@ -1,9 +1,8 @@
 package com.mizuledevelopment.master.commands;
 
 import com.mizuledevelopment.master.MasterApplication;
-import com.mizuledevelopment.master.manager.NodeManager;
-import com.mizuledevelopment.master.objects.ServerModel;
-import com.mizuledevelopment.master.rcon.RconClient;
+import com.mizuledevelopment.shared.objects.ServerModel;
+import com.mizuledevelopment.shared.rcon.RconClient;
 import io.github.revxrsal.cub.annotation.Command;
 import io.github.revxrsal.cub.annotation.Description;
 

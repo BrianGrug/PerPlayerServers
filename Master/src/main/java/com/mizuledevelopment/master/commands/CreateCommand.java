@@ -5,17 +5,13 @@ import com.github.dockerjava.api.exception.InternalServerErrorException;
 import com.github.dockerjava.api.model.ExposedPort;
 import com.github.dockerjava.api.model.Ports;
 import com.mizuledevelopment.master.MasterApplication;
-import com.mizuledevelopment.master.manager.NodeManager;
-import com.mizuledevelopment.master.objects.ServerModel;
-import com.mizuledevelopment.master.rcon.RconClient;
+import com.mizuledevelopment.shared.objects.ServerModel;
 import io.github.revxrsal.cub.annotation.Command;
 import io.github.revxrsal.cub.annotation.Description;
 import io.github.revxrsal.cub.annotation.Named;
-import lombok.SneakyThrows;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.UUID;
 import java.util.concurrent.*;
 
 public class CreateCommand {
@@ -58,7 +54,7 @@ public class CreateCommand {
 
         MasterApplication.getInstance().getDockerClient().startContainerCmd(container.getId()).exec();
         MasterApplication.getInstance().getNodeManager().save(serverModel);
-        MasterApplication.getInstance().getJedisManager().getJedisPublisher().publishData("CREATE///" + serverModel.getName() + "///" + serverModel.getServerPort());
+        MasterApplication.getInstance().getJedisManager().getJedisPublisher().publishData("ADD///" + serverModel.getName() + "///" + serverModel.getServerPort());
     }
 
 }

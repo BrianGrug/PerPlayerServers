@@ -1,7 +1,7 @@
 package com.mizuledevelopment.master.jedis;
 
 import com.mizuledevelopment.master.MasterApplication;
-import com.mizuledevelopment.master.objects.ServerModel;
+import com.mizuledevelopment.shared.objects.ServerModel;
 import redis.clients.jedis.JedisPubSub;
 
 public class JedisSubscriber extends JedisPubSub {
@@ -11,7 +11,6 @@ public class JedisSubscriber extends JedisPubSub {
         if(!channel.equals(MasterApplication.getInstance().getJedisManager().getJedisChannel())) return;
         String[] data = message.split("///");
 
-        //TODO Fix jedis multiplying
         switch (data[0]) {
             case "PING":
                 if(data.length == 1) return;

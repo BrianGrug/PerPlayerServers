@@ -1,10 +1,8 @@
-package com.mizuledevelopment.master.rcon;
+package com.mizuledevelopment.shared.rcon;
 
-import com.mizuledevelopment.master.MasterApplication;
-import com.mizuledevelopment.master.objects.ServerModel;
-import com.mizuledevelopment.master.rcon.ex.AuthFailureException;
-import com.mizuledevelopment.master.rcon.ex.RconClientException;
-import lombok.SneakyThrows;
+import com.mizuledevelopment.shared.objects.ServerModel;
+import com.mizuledevelopment.shared.rcon.ex.AuthFailureException;
+import com.mizuledevelopment.shared.rcon.ex.RconClientException;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -29,8 +27,8 @@ public class RconClient implements Closeable {
         this.currentRequestId = new AtomicInteger(1);
     }
 
-    public static RconClient open(ServerModel serverModel) {
-        return open(serverModel.getHost(), serverModel.getRconPort(), MasterApplication.getInstance().getRconPassword());
+    public static RconClient open(ServerModel serverModel, String rconPassword) {
+        return open(serverModel.getHost(), serverModel.getRconPort(), rconPassword);
     }
 
     public static RconClient open(String host, int port, String password) {

@@ -1,4 +1,4 @@
-package com.mizuledevelopment.master.objects;
+package com.mizuledevelopment.shared.objects;
 
 import lombok.Data;
 

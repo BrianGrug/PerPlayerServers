@@ -1,7 +1,7 @@
 package com.mizuledevelopment.master.manager;
 
 import com.mizuledevelopment.master.MasterApplication;
-import com.mizuledevelopment.master.objects.ServerModel;
+import com.mizuledevelopment.shared.objects.ServerModel;
 import com.mongodb.client.model.Filters;
 import lombok.Getter;
 

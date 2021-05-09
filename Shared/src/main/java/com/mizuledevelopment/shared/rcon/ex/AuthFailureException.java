@@ -1,4 +1,4 @@
-package com.mizuledevelopment.master.rcon.ex;
+package com.mizuledevelopment.shared.rcon.ex;
 
 public class AuthFailureException extends RconClientException {
 

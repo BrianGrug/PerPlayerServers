@@ -10,6 +10,7 @@
     <version>dev</version>
 
     <modules>
+        <module>Shared</module>
         <module>Master</module>
         <module>Bungee</module>
         <module>Node</module>
