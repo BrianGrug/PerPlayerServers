@@ -1,4 +1,6 @@
 redis:
   host: "192.168.1.16"
   port: 6379
-  password:
+  password: ""
+docker:
+  host: "192.168.1.27"
