@@ -14,7 +14,7 @@ import java.net.URL;
 
 public class BungeePlugin extends Plugin {
 
-    @Getter private static BungeePlugin instance; //Just to keep code style consistent
+    @Getter private static BungeePlugin instance;
     @Getter private static Configuration config;
     @Getter private static BungeeJedisManager bungeeJedisManager;
 
@@ -32,11 +32,9 @@ public class BungeePlugin extends Plugin {
     }
     @SneakyThrows
     private boolean copyResources() {
-
         File config = new File(getDataFolder(), "config.yml");
 
         if(config.exists()) return true;
-
         if(!getDataFolder().exists()) getDataFolder().mkdir();
 
         InputStream is = getResourceAsStream("config.yml");

@@ -1,5 +1,6 @@
 package com.mizuledevelopment.bungee.jedis;
 
+import com.mizuledevelopment.bungee.BungeePlugin;
 import com.mizuledevelopment.bungee.utils.BungeeUtils;
 import lombok.Getter;
 import redis.clients.jedis.Jedis;
@@ -41,11 +42,10 @@ public class BungeeJedisManager {
 
                 switch (data[0]) {
                     case "ADD":
-                        if(data.length < 4) return;
-                        BungeeUtils.addServer(data[1], InetSocketAddress.createUnresolved(data[2], Integer.parseInt(data[3])), false);
+                        System.out.println("Adding server to server list..");
+                        BungeeUtils.addServer(data[1], InetSocketAddress.createUnresolved(BungeePlugin.getConfig().getString("docker.address"), Integer.parseInt(data[2])), false);
                         break;
                     case "DELETE":
-                        if(data.length < 4) return;
                         BungeeUtils.removeServer(data[1]);
                         break;
                     default:

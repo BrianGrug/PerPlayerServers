@@ -71,6 +71,6 @@ public class CreateCommand {
 
         NodeManager.getServerCache().put(name, serverModel);
 
-        new JedisPublisher().publishData("CREATE///" + serverModel.getName() + "///" + serverModel.getServerPort());
+        new JedisPublisher().publishData("ADD///" + serverModel.getName() + "///" + serverModel.getServerPort());
     }
 }
