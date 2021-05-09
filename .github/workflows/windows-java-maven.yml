@@ -32,7 +32,7 @@ jobs:
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots verify
       - name: Create staging folder
-        run: mkdir staging && cp Master/target/*.jar staging && cp Node/target/*.jar staging
+        run: mkdir staging && cp Master/target/*.jar staging && cp Bungee/target/*.jar staging && cp Node/target/*.jar staging
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2
         with:
