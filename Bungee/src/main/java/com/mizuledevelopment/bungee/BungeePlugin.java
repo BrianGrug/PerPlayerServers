@@ -22,24 +22,22 @@ public class BungeePlugin extends Plugin {
     public void onEnable() {
         instance = this;
 
-        if(!new File(getDataFolder(), "config.yml").exists()) {
-            copyResources();
-        }
+        copyResources();
 
-        ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), "config.yml"));
+        if(copyResources()) config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), "config.yml"));
 
-        bungeeJedisManager = new BungeeJedisManager(config.getString("redis.host"), config.getInt("redis.port"),
-                "Testing-Master", config.getString("redis.password"));
+        bungeeJedisManager = new BungeeJedisManager(config.getString("redis.address"), config.getInt("redis.port"),
+                "Testing-Master", config.getString("redis.password").equals("") ? null : config.getString("redis.password"));
 
     }
     @SneakyThrows
     private boolean copyResources() {
 
-        if(!getDataFolder().exists()) {
-            getDataFolder().mkdir();
-        }
-
         File config = new File(getDataFolder(), "config.yml");
+
+        if(config.exists()) return true;
+
+        if(!getDataFolder().exists()) getDataFolder().mkdir();
 
         InputStream is = getResourceAsStream("config.yml");
         OutputStream os = new FileOutputStream(config);
