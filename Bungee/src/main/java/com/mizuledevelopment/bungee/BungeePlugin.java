@@ -1,6 +1,6 @@
 package com.mizuledevelopment.bungee;
 
-import com.mizuledevelopment.bungee.jedis.BungeeJedisManager;
+import com.mizuledevelopment.bungee.jedis.JedisManager;
 import lombok.Getter;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
@@ -10,27 +10,27 @@ import net.md_5.bungee.config.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 
+@Getter
 public class BungeePlugin extends Plugin {
 
-    @Getter private static BungeePlugin instance; //Just to keep code style consistent
-    @Getter private static Configuration config;
-    @Getter private static BungeeJedisManager bungeeJedisManager;
+    @Getter private static BungeePlugin instance;
+    private Configuration config;
+    private JedisManager jedisManager;
 
     public void onEnable() {
-        instance = this;
+        BungeePlugin.instance = this;
 
         File file = new File(this.getDataFolder(), "config.yml");
         if (!file.exists()) {
             try {
                 file.createNewFile();
-                config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
-            } catch (IOException exception) {
-                exception.printStackTrace();
+                this.config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
+            } catch (IOException ex) {
+                this.getProxy().stop(ex.getMessage());
             }
         }
 
-        bungeeJedisManager = new BungeeJedisManager(config.getString("redis.host"), config.getInt("redis.port"),
-                "Testing-Master", config.getString("redis.password"));
-
+        this.jedisManager = new JedisManager(this.config.getString("redis.host"), this.config.getInt("redis.port"), "Testing-Master", this.config.getString("redis.password"));
     }
+
 }

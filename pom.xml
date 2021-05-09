@@ -11,6 +11,7 @@
 
     <modules>
         <module>Master</module>
+        <module>Bungee</module>
         <module>Node</module>
     </modules>
 
@@ -125,5 +126,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

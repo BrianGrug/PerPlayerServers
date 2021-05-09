@@ -3,8 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>PerPlayerServers</artifactId>
         <groupId>com.mizuledevelopment</groupId>
+        <artifactId>PerPlayerServers</artifactId>
         <version>dev</version>
     </parent>
 

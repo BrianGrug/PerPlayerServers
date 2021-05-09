@@ -1,4 +1,4 @@
-name: PPS-Bungee
-version: ${project.version}
-author: MizuleDevelopment
 main: com.mizuledevelopment.bungee.BungeePlugin
+name: PPS-Bungee
+version: ${git.commit.id.abbrev}
+author: MizuleDevelopment
