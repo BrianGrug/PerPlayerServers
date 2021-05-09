@@ -9,12 +9,14 @@ import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 
-import java.io.*;
-import java.net.URL;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class BungeePlugin extends Plugin {
 
-    @Getter private static BungeePlugin instance; //Just to keep code style consistent
+    @Getter private static BungeePlugin instance;
     @Getter private static Configuration config;
     @Getter private static BungeeJedisManager bungeeJedisManager;
 
@@ -29,14 +31,13 @@ public class BungeePlugin extends Plugin {
         bungeeJedisManager = new BungeeJedisManager(config.getString("redis.address"), config.getInt("redis.port"),
                 "Testing-Master", config.getString("redis.password").equals("") ? null : config.getString("redis.password"));
 
+
     }
     @SneakyThrows
     private boolean copyResources() {
-
         File config = new File(getDataFolder(), "config.yml");
 
         if(config.exists()) return true;
-
         if(!getDataFolder().exists()) getDataFolder().mkdir();
 
         InputStream is = getResourceAsStream("config.yml");

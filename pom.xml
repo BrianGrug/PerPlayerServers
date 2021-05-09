@@ -13,6 +13,7 @@
         <module>Master</module>
         <module>Node</module>
         <module>Bungee</module>
+        <module>Shared</module>
     </modules>
 
     <build>

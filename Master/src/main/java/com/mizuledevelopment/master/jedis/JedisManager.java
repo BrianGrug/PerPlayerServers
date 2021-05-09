@@ -40,7 +40,6 @@ public class JedisManager {
                 if(!channel.equals(jedisChannel)) return;
 
                 String[] data = message.split("///");
-                //TODO Fix jedis multiplying
                 switch (data[0]) {
                     case "PING":
                         if(data.length == 1) return;

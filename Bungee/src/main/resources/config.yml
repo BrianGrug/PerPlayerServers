@@ -2,3 +2,7 @@ redis:
   address: "127.0.0.1"
   port: 6379
   password: ""
+docker:
+  address: "127.0.0.1"
+  user: "DaddyImPregnant"
+  password: ""
