@@ -9,8 +9,10 @@ import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 
-import java.io.*;
-import java.net.URL;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class BungeePlugin extends Plugin {
 
@@ -28,6 +30,7 @@ public class BungeePlugin extends Plugin {
 
         bungeeJedisManager = new BungeeJedisManager(config.getString("redis.address"), config.getInt("redis.port"),
                 "Testing-Master", config.getString("redis.password").equals("") ? null : config.getString("redis.password"));
+
 
     }
     @SneakyThrows
