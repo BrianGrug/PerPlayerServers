@@ -15,7 +15,10 @@ import io.github.revxrsal.cub.cli.core.CLIHandler;
 import lombok.Getter;
 import org.apache.commons.io.FileUtils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Properties;

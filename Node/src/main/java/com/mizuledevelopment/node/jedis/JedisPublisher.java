@@ -1,7 +1,6 @@
 package com.mizuledevelopment.node.jedis;
 
 import com.mizuledevelopment.node.NodePlugin;
-import redis.clients.jedis.Jedis;
 
 public class JedisPublisher {
 

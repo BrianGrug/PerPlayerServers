@@ -3,7 +3,9 @@ package com.mizuledevelopment.master.commands.rcon;
 import com.mizuledevelopment.master.MasterApplication;
 import com.mizuledevelopment.shared.objects.ServerModel;
 import com.mizuledevelopment.shared.rcon.RconClient;
-import io.github.revxrsal.cub.annotation.*;
+import io.github.revxrsal.cub.annotation.Command;
+import io.github.revxrsal.cub.annotation.Description;
+import io.github.revxrsal.cub.annotation.Named;
 
 import java.util.Scanner;
 

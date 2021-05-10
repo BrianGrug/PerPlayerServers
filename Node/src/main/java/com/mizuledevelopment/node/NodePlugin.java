@@ -3,7 +3,6 @@ package com.mizuledevelopment.node;
 import com.mizuledevelopment.node.jedis.JedisManager;
 import com.mizuledevelopment.node.threads.PingRunnable;
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter

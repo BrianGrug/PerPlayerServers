@@ -1,9 +1,7 @@
 package com.mizuledevelopment.master.threads;
 
 import com.mizuledevelopment.master.MasterApplication;
-import com.mizuledevelopment.master.manager.NodeManager;
 
-import java.util.Arrays;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;

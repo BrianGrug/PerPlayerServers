@@ -4,8 +4,6 @@ import com.mizuledevelopment.master.MasterApplication;
 import io.github.revxrsal.cub.annotation.Command;
 import io.github.revxrsal.cub.annotation.Description;
 
-import java.util.Arrays;
-
 public class HelpCommand {
 
     @Command("help")

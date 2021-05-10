@@ -12,7 +12,7 @@ import io.github.revxrsal.cub.annotation.Named;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.concurrent.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class CreateCommand {
 
