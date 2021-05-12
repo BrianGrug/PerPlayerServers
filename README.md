@@ -1,6 +1,6 @@
-# PPS
+# PPS (Per Player Servers)
 
-Create servers on the fly with Docker
+Create servers on the fly with Docker.
 
 ## Installation
 
@@ -10,7 +10,7 @@ mvn clean package
 ```
 
 ## Usage
-For all of the following examples, I will be using the name HelloWorld and the image daddyimpregnant/spigot:latest
+For all of the following examples, I will be using the name HelloWorld and the image daddyimpregnant/spigot:latest.
 
 Creating a server
 ```
