@@ -17,7 +17,7 @@ mvn
 ```
 
 ## Usage
-For all of the following examples, I will be using the name HelloWorld and the image daddyimpregnant/spigot:latest
+For all of the following examples, I will be using the name HelloWorld and the image daddyimpregnant/spigot:latest.
 
 Creating a server
 ```
