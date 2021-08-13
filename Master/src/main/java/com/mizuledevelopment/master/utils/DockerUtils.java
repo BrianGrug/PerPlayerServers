@@ -1,29 +1,24 @@
-package com.mizuledevelopment.shared;
+package com.mizuledevelopment.master.utils;
 
-import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.command.RemoveContainerCmd;
 import com.github.dockerjava.api.exception.InternalServerErrorException;
 import com.github.dockerjava.api.model.ExposedPort;
 import com.github.dockerjava.api.model.Ports;
-import com.github.dockerjava.core.DockerClientBuilder;
-import com.github.dockerjava.core.DockerClientConfig;
-import com.mizuledevelopment.shared.objects.ServerModel;
+import com.mizuledevelopment.master.MasterApplication;
+import com.mizuledevelopment.master.jedis.JedisPublisher;
+import com.mizuledevelopment.master.manager.NodeManager;
+import com.mizuledevelopment.master.objects.ServerModel;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class PlayerServers {
+public class DockerUtils {
 
-    private static DockerClient dockerClient;
-
-    public PlayerServers(DockerClientConfig dockerClientConfig) {
-        dockerClient = DockerClientBuilder.getInstance(dockerClientConfig).build();
-    }
-
-    public void createServer(ServerModel serverModel, String image) {
+    public static void createServer(String name, String image) {
+        ServerModel serverModel = new ServerModel();
 
         Ports ports = new Ports();
         HashMap<Integer, Integer> portBindings = new HashMap<>();
@@ -44,22 +39,35 @@ public class PlayerServers {
         });
 
         serverModel.setServerPort(portBindings.get(25565));
+        serverModel.setHost(MasterApplication.getConfig().getProperty("docker.ip"));
+        serverModel.setName(name);
         serverModel.setRconPort(portBindings.get(13582));
         serverModel.setTime(System.currentTimeMillis());
         serverModel.setUuid(UUID.randomUUID());
+        serverModel.setRconPassword(MasterApplication.getRconPassword());
 
-        CreateContainerResponse container = dockerClient.createContainerCmd(image)
+        CreateContainerResponse container = MasterApplication.getDockerClient().createContainerCmd(MasterApplication.getConfig().getProperty("docker.user") +  "/" + image + ":latest")
                 .withPortBindings(ports)
                 .withName(serverModel.getUuid().toString())
-                .withEnv("ID=" + serverModel.getName())
+                .withEnv("ID=" + name)
                 .exec();
 
         serverModel.setContainerID(container.getId());
 
-        dockerClient.startContainerCmd(container.getId()).exec();
+        MasterApplication.getDockerClient().startContainerCmd(container.getId()).exec();
+
+
+
+        NodeManager.save(serverModel);
+
+        NodeManager.getServerCache().put(name, serverModel);
+
+        new JedisPublisher().publishData("ADD///" + serverModel.getName() + "///" + serverModel.getServerPort());
     }
-    public static void removeServer(ServerModel serverModel) {
-        RemoveContainerCmd container = dockerClient.removeContainerCmd(serverModel.getContainerID());
+    public static void removeServer(String name) {
+        RemoveContainerCmd container = MasterApplication.getDockerClient().removeContainerCmd(NodeManager.getServer(name).getContainerID());
         container.withRemoveVolumes(true).exec();
+
+        NodeManager.removeServer(NodeManager.getServer(name));
     }
 }

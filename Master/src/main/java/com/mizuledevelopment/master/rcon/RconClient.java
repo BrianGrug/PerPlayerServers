@@ -30,7 +30,7 @@ public class RconClient implements Closeable {
     }
 
     public static RconClient open(ServerModel serverModel) {
-        return open(serverModel.getHost(), serverModel.getRconPort(), MasterApplication.getRconPassword());
+        return open(serverModel.getHost(), serverModel.getRconPort(), serverModel.getRconPassword());
     }
 
     @SneakyThrows

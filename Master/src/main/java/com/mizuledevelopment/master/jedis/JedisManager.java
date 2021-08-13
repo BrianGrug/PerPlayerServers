@@ -3,6 +3,7 @@ package com.mizuledevelopment.master.jedis;
 import com.mizuledevelopment.master.MasterApplication;
 import com.mizuledevelopment.master.manager.NodeManager;
 import com.mizuledevelopment.master.objects.ServerModel;
+import com.mizuledevelopment.master.utils.DockerUtils;
 import lombok.Getter;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -48,6 +49,15 @@ public class JedisManager {
                         server.setTime(System.currentTimeMillis());
 
                         NodeManager.cache(server);
+                        break;
+                    case "CHANGE":
+                        ServerModel serverModel = NodeManager.getServer(data[1]);
+                        if(data[2].equals("RCON")) serverModel.setRconPassword(data[3]);
+                    case "CREATE":
+                        DockerUtils.createServer(data[1], data[2]);
+                        break;
+                    case "REMOVE":
+                        DockerUtils.removeServer(data[1]);
                         break;
                     default:
                         break;
