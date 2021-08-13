@@ -2,6 +2,7 @@ package com.mizuledevelopment.node;
 
 import com.mizuledevelopment.node.commands.ChangeRconCommand;
 import com.mizuledevelopment.node.commands.CreateServerCommand;
+import com.mizuledevelopment.node.commands.RemoveServerCommand;
 import com.mizuledevelopment.node.jedis.JedisManager;
 import com.mizuledevelopment.node.threads.PingRunnable;
 import io.github.revxrsal.cub.bukkit.BukkitCommandHandler;
@@ -32,7 +33,7 @@ public class NodePlugin extends JavaPlugin {
 
         BukkitCommandHandler handler = BukkitCommandHandler.create(this);
 
-        handler.registerCommand(new ChangeRconCommand(), new CreateServerCommand());
+        handler.registerCommand(new ChangeRconCommand(), new CreateServerCommand(), new RemoveServerCommand());
 
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new PingRunnable(), 0L, 100L);
     }
