@@ -1,7 +1,7 @@
 package com.mizuledevelopment.master.mongo;
 
 import com.mizuledevelopment.master.MasterApplication;
-import com.mizuledevelopment.master.objects.ServerModel;
+import com.mizuledevelopment.shared.objects.ServerModel;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoCredential;
