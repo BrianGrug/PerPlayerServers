@@ -1,5 +1,8 @@
 package com.mizuledevelopment.node;
 
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
+
 import com.mizuledevelopment.node.commands.ChangeRconCommand;
 import com.mizuledevelopment.node.commands.CreateServerCommand;
 import com.mizuledevelopment.node.commands.RemoveServerCommand;
@@ -29,7 +32,7 @@ public class NodePlugin extends JavaPlugin {
         jedisManager = new JedisManager(getConfig().getString("redis.host"), getConfig().getInt("redis.port"),
                 "Testing-Master", getConfig().getString("redis.password"));
 
-        System.out.println("SERVER ID: " + System.getenv("ID"));
+        getLogger().info("Server ID is " + System.getenv("ID"));
 
         BukkitCommandHandler handler = BukkitCommandHandler.create(this);
 

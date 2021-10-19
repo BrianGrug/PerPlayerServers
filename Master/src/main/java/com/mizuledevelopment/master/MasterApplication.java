@@ -1,30 +1,35 @@
 package com.mizuledevelopment.master;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.PrintStream;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.Properties;
+import java.util.Scanner;
+
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientBuilder;
 import com.github.dockerjava.core.DockerClientConfig;
-import com.mizuledevelopment.master.commands.*;
+import com.mizuledevelopment.master.commands.CreateCommand;
+import com.mizuledevelopment.master.commands.DebugCommand;
+import com.mizuledevelopment.master.commands.FindCommand;
+import com.mizuledevelopment.master.commands.HelpCommand;
+import com.mizuledevelopment.master.commands.RemoveCommand;
+import com.mizuledevelopment.master.commands.StartCommand;
+import com.mizuledevelopment.master.commands.StopCommand;
 import com.mizuledevelopment.master.commands.rcon.AddCommand;
 import com.mizuledevelopment.master.commands.rcon.ConnectCommand;
 import com.mizuledevelopment.master.jedis.JedisManager;
-import com.mizuledevelopment.master.jedis.JedisPublisher;
-import com.mizuledevelopment.master.manager.NodeManager;
 import com.mizuledevelopment.master.mongo.Mongo;
 import com.mizuledevelopment.master.threads.CleanupThread;
+
+import org.apache.commons.io.FileUtils;
+
 import io.github.revxrsal.cub.cli.core.CLIHandler;
 import lombok.Getter;
 import lombok.SneakyThrows;
-import org.apache.commons.io.FileUtils;
-
-import java.io.*;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
-import java.util.Properties;
-import java.util.Scanner;
 
 public class MasterApplication {
 

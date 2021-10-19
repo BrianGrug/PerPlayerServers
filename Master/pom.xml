@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>PerPlayerServers</artifactId>
         <groupId>com.mizuledevelopment</groupId>
@@ -23,18 +21,20 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.4</version>
                 <configuration>
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>META-INF/*.SF</exclude>
+                                <exclude>META-INF/*.DSA</exclude>
+                                <exclude>META-INF/*.RSA</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
                     <artifactSet>
-                        <includes>
-                            <include>com.github.ReflxctionDev.cub:*</include>
-                            <include>org.mongodb:mongo-java-driver</include>
-                            <include>org.jsoup:jsoup</include>
-                            <include>com.google.code.gson:gson</include>
-                            <include>com.google.guava:*</include>
-                            <include>javax.json:javax.json-api</include>
-                            <include>org.glassfish:javax.json</include>
-                            <include>com.github.docker-java:*</include>
-                            <include>commons-io:*</include>
-                        </includes>
+                        <excludes>
+                            <exclude>org.projectlombok:*</exclude>
+                        </excludes>
                     </artifactSet>
                 </configuration>
                 <executions>
@@ -53,6 +53,7 @@
                 <configuration>
                     <archive>
                         <manifest>
+                            <addClasspath>true</addClasspath>
                             <mainClass>com.mizuledevelopment.master.MasterApplication</mainClass>
                         </manifest>
                     </archive>
@@ -122,6 +123,12 @@
             <groupId>com.mizuledevelopment</groupId>
             <artifactId>Shared</artifactId>
             <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.22</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
