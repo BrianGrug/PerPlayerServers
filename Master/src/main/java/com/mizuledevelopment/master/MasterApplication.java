@@ -41,10 +41,10 @@ public class MasterApplication {
 
     @SneakyThrows
     public static void main(String[] args) {
-        copyResource();
 
         if (!new File("config.properties").exists()) {
-            System.out.println("Config not found. Starting will fail.");
+            System.out.println("Config not found. Generating it now!");
+            copyResource();
         }
 
         config = new Properties();
