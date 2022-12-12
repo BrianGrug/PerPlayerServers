@@ -1,5 +1,6 @@
 
 # PerPlayerServers
+Pretty outdated, will update soon :)
 
 PerPlayerServers (PPS for short) is a Java program that works with Docker to deploy Minecraft servers on the fly!
 
